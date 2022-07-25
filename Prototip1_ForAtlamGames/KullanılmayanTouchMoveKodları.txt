@@ -1,0 +1,64 @@
+
+    //For touch codes
+    public float rotatespeed = 10f;
+    Vector2 startingPosition;
+    //For touch codes
+
+
+    public void TouchMove()
+    {
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+            switch (touch.phase)
+            {
+
+                case TouchPhase.Began:
+                    startingPosition.x = touch.position.x;
+                    startingPosition.y = touch.position.y;
+                    break;
+
+                case TouchPhase.Moved:
+                    if (startingPosition.x > touch.position.x)
+                    {
+                        transform.Rotate(Vector3.back, -rotatespeed * Time.deltaTime);
+                    }
+                    else if (startingPosition.x < touch.position.x)
+                    {
+                        transform.Rotate(Vector3.back, rotatespeed * Time.deltaTime);
+                    }
+                    else if (startingPosition.y > touch.position.y)
+                    {
+                        transform.Rotate(Vector3.right, -rotatespeed * Time.deltaTime);
+                    }
+                    else if (startingPosition.y < touch.position.y)
+                    {
+                        transform.Rotate(Vector3.right, rotatespeed * Time.deltaTime);
+                    }
+                    break;
+
+                case TouchPhase.Ended:
+                    Debug.Log("Touch Phase Ended.");
+                    break;
+            }
+
+            transform.localRotation = Quaternion.Euler(Mathf.Clamp(-turn.y, -20f, 10f), Mathf.Clamp(turn.x, -30f, 30f), 0).normalized;
+
+            if (turn.x <= -30)
+            {
+                turn.x = -30;
+            }
+            else if (turn.x >= 30)
+            {
+                turn.x = 30;
+            }
+            if (turn.y <= -10)
+            {
+                turn.y = -10;
+            }
+            else if (turn.y >= 20)
+            {
+                turn.y = 20;
+            }
+        }
+    }
